@@ -4,7 +4,7 @@ namespace app\Config;
 
 trait DB {
     
-    public $table;
+    protected $table;
 
     public function connectDB() {
 
@@ -14,6 +14,10 @@ trait DB {
         }
         
         return $conn;
+    }
+    
+    public function chTable($table) {
+        $this->table = $table;
     }
 
 }

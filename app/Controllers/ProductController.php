@@ -3,20 +3,17 @@
 use app\Models\Product;
 
 class ProductController {
-    
+
 
     public function index() {
         $db = new Product();
         View::load("product/index", [
-            'products' => $db->all('products'),
+            'products' => $db->all(),
         ]);
     }
 
     public function add() {
-        $db = new Product();
-        View::load("product/add", [
-            'table' => $db->getTable()
-        ]);
+        View::load("product/add");
     }
 
     public function store() {
@@ -41,7 +38,7 @@ class ProductController {
     public function edit($id) {
         $db = new Product();
         View::load("product/edit", [
-            'product' => $db->find('products', $id)
+            'product' => $db->find($id)
         ]);
     }
 
@@ -70,7 +67,7 @@ class ProductController {
 
     public function delete($id) {
         $db = new Product();
-        $db->delete('products', $id);
+        $db->delete($id);
         header("Location: " . BURL . "product");
         exit;
     }

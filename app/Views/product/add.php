@@ -1,13 +1,5 @@
 <?php include(VIEWS . 'inc/header.php'); ?>
 
-<?php
-if (isset($table)) {
-    echo $table;
-    
-} else {
-    echo "no table";
-}
-?>
 <div class="container">
 
   <h1 class="text-center p-4">Add New Product</h1>
