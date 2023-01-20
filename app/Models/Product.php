@@ -7,14 +7,10 @@ use app\Models\Model;
 
 class Product extends Model {
     
-    public function setTable() {
-        
-        $this->table = "haydar";
-    }
     
-    public function getTable() {
+    public function __construct() {
         
-        return $this->table;
+        $this->table = "products";
     }
 
 }

@@ -9,9 +9,9 @@ class Model {
     use DB;
     
     
-    public function all($table) {
+    public function all() {
 
-        $query = "select * from $table";
+        $query = "select * from $this->table";
         $result = mysqli_query($this->connectDB(), $query);
         if(!$result) {
             die("no result!!");
@@ -19,9 +19,9 @@ class Model {
         return $result;
     }
 
-    public function find($table, $id) {
+    public function find($id) {
 
-        $query = "select * from $table WHERE id = $id";
+        $query = "select * from $this->table WHERE id = $id";
         $result = mysqli_query($this->connectDB(), $query);
         if(!$result) {
             die("no result!!");
@@ -47,9 +47,9 @@ class Model {
         return true;
     }
 
-    public function delete($table, $id) {
+    public function delete($id) {
 
-        $sql = "DELETE FROM `$table` WHERE `id` = $id";
+        $sql = "DELETE FROM `$this->table` WHERE `id` = $id";
         $result = mysqli_query($this->connectDB(), $sql);
         if(!$result) {
             return false;
