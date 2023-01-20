@@ -16,8 +16,5 @@ trait DB {
         return $conn;
     }
     
-    public function chTable($table) {
-        $this->table = $table;
-    }
 
 }
