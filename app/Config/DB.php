@@ -4,7 +4,6 @@ namespace app\Config;
 
 trait DB {
     
-    protected $table;
 
     public function connectDB() {
 
