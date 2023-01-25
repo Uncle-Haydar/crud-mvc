@@ -9,36 +9,34 @@ class Product extends Model
     public function __construct()
     {
         $this->table = "products";
-        $this->allowed_col = [
-            'name', 'price', 'description', 'qty'
-        ];
+        $this->allowed_col; //  Later
     }
 
     /*
-     * Input Validation
+     *  Input Validation
      */
-    public static function validate(array $cols): array
+    public static function validate(array $data): array
     {
         $errors = [];
 
-        if (empty($cols['name'])) {
+        if (empty($data['name'])) {
             $errors['name'] = "Name field is require!!";
         } else {
-            if (strlen($cols['name']) > 30) {
+            if (strlen($data['name']) > 30) {
                 $errors['name'] = "Name cant be more than 30ch!!";
             }
         }
-        if (empty($cols['price'])) {
+        if (empty($data['price'])) {
             $errors['price'] = "Price field is require!!";
         }
-        if (empty($cols['description'])) {
+        if (empty($data['description'])) {
             $errors['description'] = "Description field is require!!";
         } else {
-            if (strlen($cols['description']) > 200) {
+            if (strlen($data['description']) > 200) {
                 $errors['description'] = "Description cant be more than 200ch!!";
             }
         }
-        if (empty($cols['qty'])) {
+        if (empty($data['qty'])) {
             $errors['qty'] = "Quantity field is require!!";
         }
 

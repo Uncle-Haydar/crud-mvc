@@ -9,12 +9,12 @@ class ProductController
     {
         $db = new Product();
         View::load("product/index", [
-            'products' => $db->all(),
+            'products' => $db->all('DESC'),
         ]);
     }
 
     /*
-     * Routing to Store Function
+     * Routing to Add page
      */
     public function add(): void
     {
@@ -27,24 +27,19 @@ class ProductController
     public function store(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-            $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS);
-            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
-            $qty = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['price'] = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['description'] = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['qty'] = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_SPECIAL_CHARS);
     
-            $validate = $this->validateData($_POST);
+            $validate = Product::validate($data);
 
             if (!empty($validate)) {
                 $_SESSION['errors'] = $validate;
                 View::redirect('product/add');
             } else {
                 $db = new Product();
-                $db->insert([
-                    'name'          => $name,
-                    'price'         => $price,
-                    'description'   => $description,
-                    'qty'           => $qty
-                ]);
+                $db->insert($data);
                 $_SESSION['added'] = "Product added successfully..!";
                 View::redirect('product');
             }
@@ -69,25 +64,19 @@ class ProductController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = filter_input(INPUT_POST, 'id');
-            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-            $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS);
-            $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
-            $qty = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['price'] = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['description'] = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['qty'] = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_SPECIAL_CHARS);
     
-            $validate = $this->validateData($_POST);
+            $validate = Product::validate($data);
 
             if (!empty($validate)) {
                 $_SESSION['errors'] = $validate;
                 View::redirect('product/edit/' . $id);
             } else {
                 $db = new Product();
-                $db->update([
-                    'id'            => $id,
-                    'name'          => $name,
-                    'price'         => $price,
-                    'description'   => $description,
-                    'qty'           => $qty
-                ]);
+                $db->update($id, $data);
                 $_SESSION['updated'] = "Product update successfully..!";
                 View::redirect('product');
             }
@@ -106,17 +95,5 @@ class ProductController
         exit;
     }
 
-    /*
-     *  Validate Data 
-     */
-    public function validateData($data)
-    {
-        $validate = Product::validate([
-            'name'          => $data['name'],
-            'price'         => $data['price'],
-            'description'   => $data['description'],
-            'qty'           => $data['qty']
-        ]);
-        return $validate;
-    }
+
 }

@@ -4,71 +4,69 @@ namespace app\Models;
 
 use app\Config\DB;
 
-class Model {
+class Model
+{
 
     use DB;
 
     protected string $table;
     protected array $allowed_col;
 
-    public function all() {
-
-        $query = "select * from $this->table";
+    /**
+     *  Get all data from record of table
+     */
+    public function all($order = 'ASC')
+    {
+        $query = "SELECT * FROM $this->table ORDER BY `id` $order";
         $result = mysqli_query($this->connectDB(), $query);
-        if (!$result) {
-            die("no result!!");
-        }
         return $result;
     }
 
-    public function find($id) {
-
-        $query = "select * from $this->table WHERE id = $id";
+    /**
+     *  Get one record from table
+     */
+    public function find($id)
+    {
+        $query = "SELECT * FROM $this->table WHERE id = $id";
         $result = mysqli_query($this->connectDB(), $query);
-        if (!$result) {
-            die();
-        }
         return $result;
     }
 
+    /**
+     *  Insert data to table
+     */
     public function insert($data)
     {
-        if (!empty($this->allowed_col)) {
-            foreach ($data as $key) {
-                if (!in_array($key, $this->allowed_col)) {
-                    unset($data[$key]);
-                }
-            }
-        }
         $keys = array_keys($data);
-        $sql = "INSERT INTO $this->table (". implode(',', $keys) .") 
-                VALUES ('". implode("','", $data) ."')";
+        $sql = "INSERT INTO $this->table (" . implode(',', $keys) . ") 
+                VALUES ('" . implode("','", $data) . "')";
         if (!mysqli_query($this->connectDB(), $sql)) {
             die('Data Not Inserted!!');
         }
     }
 
-    public function update($data)
+    /**
+     *  Update record of table
+     */
+    public function update($id, $data)
     {
-        if (!empty($this->allowed_col)) {
-            foreach ($data as $key) {
-                if (!in_array($key, $this->allowed_col)) {
-                    unset($data[$key]);
-                }
-            }
+        $keys = array_keys($data);
+        $sql = "UPDATE $this->table SET ";
+        foreach ($keys as $key) {
+            $sql .= $key . "='" . $data[$key] . "', ";
         }
-        // $keys = array_keys($data);
-        $sql = "UPDATE $this->table
-                SET `name`='".$data['name']."',`price`='".$data['price'].
-                "',`description`='".$data['description']."',`qty`='".$data['qty'].
-                "' WHERE `id` = ".$data['id'];
+        $sql = trim($sql, ', ');
+        $sql .= " WHERE `id` = $id";
         if (!mysqli_query($this->connectDB(), $sql)) {
             die('The Table Not Uptaded!!');
         }
     }
 
-    public function delete($id) {
-
+    /**
+     *  Delete from table
+     */
+    public function delete($id)
+    {
         $sql = "DELETE FROM `$this->table` WHERE `id` = $id";
         $result = mysqli_query($this->connectDB(), $sql);
         if (!$result) {
@@ -76,5 +74,4 @@ class Model {
         }
         return true;
     }
-
 }
