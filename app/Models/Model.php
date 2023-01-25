@@ -10,7 +10,7 @@ class Model
     use DB;
 
     protected string $table;
-    protected array $allowed_col;
+    protected array $allowed_col;   //  Later
 
     /**
      *  Get all data from record of table

@@ -9,7 +9,6 @@ class Product extends Model
     public function __construct()
     {
         $this->table = "products";
-        $this->allowed_col; //  Later
     }
 
     /*
