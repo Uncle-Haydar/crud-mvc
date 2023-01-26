@@ -3,10 +3,10 @@
 namespace app\Models;
 
 use app\Config\DB;
+use PDO;
 
 class Model
 {
-
     use DB;
 
     protected string $table;
@@ -18,8 +18,10 @@ class Model
     public function all($order = 'ASC')
     {
         $query = "SELECT * FROM $this->table ORDER BY `id` $order";
-        $result = mysqli_query($this->connectDB(), $query);
-        return $result;
+        $stmt = $this->connectDB()->prepare($query);
+        $stmt->execute([]);
+
+        return $stmt->fetchAll();
     }
 
     /**
@@ -28,8 +30,10 @@ class Model
     public function find($id)
     {
         $query = "SELECT * FROM $this->table WHERE id = $id";
-        $result = mysqli_query($this->connectDB(), $query);
-        return $result;
+        $stmt = $this->connectDB()->prepare($query);
+        $stmt->execute([]);
+
+        return $stmt->fetchAll();
     }
 
     /**
@@ -39,10 +43,10 @@ class Model
     {
         $keys = array_keys($data);
         $sql = "INSERT INTO $this->table (" . implode(',', $keys) . ") 
-                VALUES ('" . implode("','", $data) . "')";
-        if (!mysqli_query($this->connectDB(), $sql)) {
-            die('Data Not Inserted!!');
-        }
+                VALUES (:" . implode(",:", $keys) . ")";
+        
+        $stmt = $this->connectDB()->prepare($sql);
+        $stmt->execute($data);
     }
 
     /**
@@ -53,13 +57,12 @@ class Model
         $keys = array_keys($data);
         $sql = "UPDATE $this->table SET ";
         foreach ($keys as $key) {
-            $sql .= $key . "='" . $data[$key] . "', ";
+            $sql .= $key . "=:". $key.", ";
         }
         $sql = trim($sql, ', ');
         $sql .= " WHERE `id` = $id";
-        if (!mysqli_query($this->connectDB(), $sql)) {
-            die('The Table Not Uptaded!!');
-        }
+        $stmt = $this->connectDB()->prepare($sql);
+        $stmt->execute($data);
     }
 
     /**
@@ -68,10 +71,7 @@ class Model
     public function delete($id)
     {
         $sql = "DELETE FROM `$this->table` WHERE `id` = $id";
-        $result = mysqli_query($this->connectDB(), $sql);
-        if (!$result) {
-            return false;
-        }
-        return true;
+        $stmt = $this->connectDB()->prepare($sql);
+        $stmt->execute([]);
     }
 }
