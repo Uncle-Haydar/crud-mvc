@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 17, 2023 at 08:43 AM
+-- Generation Time: Jan 26, 2023 at 05:22 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `price` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `qty` int(11) NOT NULL
+  `name` varchar(25) NOT NULL,
+  `price` varchar(6) NOT NULL,
+  `description` varchar(64) NOT NULL,
+  `qty` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -40,8 +40,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `description`, `qty`) VALUES
-(1, 'TV Samsong', 20, 'any desc', 20),
-(2, 'IPhone 7+', 100, 'any desc2', 100);
+(13, 'Huawei Nova 5t', '450', 'Best choice for normally people', '2'),
+(15, 'Huawei Y9s plus', '270', 'For Women', '4');
 
 --
 -- Indexes for dumped tables
@@ -61,7 +61,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
