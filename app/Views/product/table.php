@@ -28,7 +28,7 @@
       </tr>
     </thead>
     <tbody>
-        <?php while ($product = mysqli_fetch_assoc($products)): ?>
+        <?php foreach ($products as $product): ?>
           <tr>
             <td><?php echo $product['id'] ?></td>
             <td><?php echo $product['name'] ?></td>
@@ -40,10 +40,7 @@
               <a class="btn btn-danger btn-sm" href="product/delete/<?php echo $product['id'] ?>">Delete</a>
             </td>
           </tr>
-          <?php
-      endwhile;
-      mysqli_free_result($products);
-      ?>
+          <?php endforeach;?>
     </tbody>
   </table>
   <a class="btn btn-primary btn-sm" href="product/add">Add New Product</a>

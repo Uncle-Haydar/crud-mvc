@@ -2,21 +2,24 @@
 
 namespace app\Config;
 
-trait DB {
-    
+use PDO;
+use PDOException;
+
+trait DB
+{
     private static $connection;
 
     public function connectDB()
     {
-        if (!self::$connection) {
-            self::$connection = mysqli_connect(HOSTNAME, USERNAME, PASSWORD, DATABASE);
-            if(mysqli_connect_errno()) {
-                die("no connect!! " . mysqli_connect_error());
+        try {
+            if (!self::$connection) {
+                self::$connection = new PDO(DSN, USERNAME, PASSWORD);
+                self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
+        } catch (PDOException $e) {
+            echo "Fieled to Connection => " . $e->getMessage();
         }
-        
+
         return self::$connection;
     }
-    
-
 }
