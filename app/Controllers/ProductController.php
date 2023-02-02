@@ -1,6 +1,6 @@
 <?php
 
-use app\Models\Product;
+use App\Models\Product;
 
 class ProductController
 {

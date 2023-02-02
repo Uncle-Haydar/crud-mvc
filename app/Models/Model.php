@@ -1,16 +1,18 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
-use app\Config\DB;
-use PDO;
 
 class Model
 {
-    use DB;
-
+    protected static $conn;
     protected string $table;
-    protected array $allowed_col;   //  Later
+    // protected array $allowed_col;   //  Later
+
+    public function __construct($db)
+    {
+        self::$conn = $db->connectDB();
+    }
 
     /**
      *  Get all data from record of table
@@ -18,7 +20,7 @@ class Model
     public function all($order = 'ASC')
     {
         $query = "SELECT * FROM $this->table ORDER BY `id` $order";
-        $stmt = $this->connectDB()->prepare($query);
+        $stmt = self::$conn->prepare($query);
         $stmt->execute([]);
 
         return $stmt->fetchAll();
@@ -30,7 +32,7 @@ class Model
     public function find($id)
     {
         $query = "SELECT * FROM $this->table WHERE id = $id";
-        $stmt = $this->connectDB()->prepare($query);
+        $stmt = self::$conn->prepare($query);
         $stmt->execute([]);
 
         return $stmt->fetchAll();
@@ -45,7 +47,7 @@ class Model
         $sql = "INSERT INTO $this->table (" . implode(',', $keys) . ") 
                 VALUES (:" . implode(",:", $keys) . ")";
         
-        $stmt = $this->connectDB()->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
         $stmt->execute($data);
     }
 
@@ -61,7 +63,7 @@ class Model
         }
         $sql = trim($sql, ', ');
         $sql .= " WHERE `id` = $id";
-        $stmt = $this->connectDB()->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
         $stmt->execute($data);
     }
 
@@ -71,7 +73,7 @@ class Model
     public function delete($id)
     {
         $sql = "DELETE FROM `$this->table` WHERE `id` = $id";
-        $stmt = $this->connectDB()->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
         $stmt->execute([]);
     }
 }

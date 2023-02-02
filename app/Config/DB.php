@@ -1,23 +1,19 @@
 <?php
 
-namespace app\Config;
+namespace App\Config;
 
-use PDO;
-use PDOException;
 
-trait DB
+class DB
 {
     private static $connection;
 
     public function connectDB()
     {
         try {
-            if (!self::$connection) {
-                self::$connection = new PDO(DSN, USERNAME, PASSWORD);
-                self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }
-        } catch (PDOException $e) {
-            echo "Fieled to Connection => " . $e->getMessage();
+            self::$connection = new \PDO(DSN, USERNAME, PASSWORD);
+            self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            die($e->getMessage());
         }
 
         return self::$connection;
