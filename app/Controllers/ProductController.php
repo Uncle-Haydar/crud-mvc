@@ -7,14 +7,14 @@ class ProductController
 
     public function index(): void
     {
-        $db = new Product();
+        $db = new Product;
         View::load("product/index", [
             'products' => $db->all('DESC'),
         ]);
     }
 
     /*
-     * Routing to Add page
+     * Routing to Adding page
      */
     public function add(): void
     {
@@ -22,15 +22,15 @@ class ProductController
     }
 
     /*
-     * Store function
+     * Adding data into table
      */
     public function store(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $data['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['price'] = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['description'] = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['qty'] = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_FULL_SPECIAL_CHARS) === 'POST') {
+            $data['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['price'] = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['description'] = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['qty'] = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
             $validate = Product::validate($data);
 
@@ -57,17 +57,15 @@ class ProductController
         ]);
     }
 
-    /*
-     * Update function
-     */
+
     public function update(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_FULL_SPECIAL_CHARS) === 'POST') {
             $id = filter_input(INPUT_POST, 'id');
-            $data['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['price'] = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['description'] = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['qty'] = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['price'] = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['description'] = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['qty'] = filter_input(INPUT_POST, 'qty', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
             $validate = Product::validate($data);
 
@@ -83,16 +81,13 @@ class ProductController
         }
     }
 
-    /*
-     * Delete Function
-     */
+
     public function delete($id): void
     {
         $db = new Product();
         $db->delete($id);
         $_SESSION['deleted'] = "Product deleted successfully..!";
-        header("Location: " . BURL . "product");
-        exit;
+        View::redirect('product');
     }
 
 

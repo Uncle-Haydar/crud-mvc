@@ -2,12 +2,12 @@
 
 namespace App\Config;
 
-class DB {
-
+class DB
+{
     private static $connection;
-    
 
-    public function connectDB() {
+    public function connectDB()
+    {
         try {
             if (self::$connection === null) {
                 self::$connection = new \PDO(DSN, USERNAME, PASSWORD);
@@ -19,5 +19,4 @@ class DB {
 
         return self::$connection;
     }
-
 }

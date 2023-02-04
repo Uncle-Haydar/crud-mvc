@@ -2,51 +2,69 @@
 
 namespace App\Models;
 
+use App\Core\Validation;
 use App\Models\Model;
 
 class Product extends Model
 {
+    private static array $errors = [];
+
     public function __construct()
     {
         $this->table = "products";
     }
 
-    /*
-     *  Input Validation
-     */
     public static function validate(array $data): array
     {
-        $errors = [];
+        self::nameValidation($data['name']);
+        self::priceValidation($data['price']);
+        self::descValidation($data['description']);
+        self::qtyValidation($data['qty']);
 
-        if (empty($data['name'])) {
-            $errors['name'] = "Name field is require!!";
-        } else {
-            if (strlen($data['name']) > 25) {
-                $errors['name'] = "Name cant be more than 25ch!!";
-            }
-        }
-        if (empty($data['price'])) {
-            $errors['price'] = "Price field is require!!";
-        } else {
-            if (strlen($data['price']) > 6) {
-                $errors['price'] = "price cant be more than 6ch!!";
-            }
-        }
-        if (empty($data['description'])) {
-            $errors['description'] = "Description field is require!!";
-        } else {
-            if (strlen($data['description']) > 64) {
-                $errors['description'] = "Description cant be more than 64ch!!";
-            }
-        }
-        if (empty($data['qty'])) {
-            $errors['qty'] = "Quantity field is require!!";
-        } else {
-            if (strlen($data['qty']) > 1) {
-                $errors['qty'] = "Quantity cant be more than 1ch!!";
-            }
-        }
+        return self::$errors;
+    }
 
-        return $errors;
+    private static function nameValidation($name): void
+    {
+        if (empty($name)) {
+            self::$errors['name'] = "Name field is require!!";
+        } else {
+            if (strlen($name) > 25) {
+                self::$errors['name'] = "Name cant be more than 25ch!!";
+            }
+        }
+    }
+
+    private static function priceValidation($price): void
+    {
+        if (empty($price)) {
+            self::$errors['price'] = "Price field is require!!";
+        } else {
+            if (strlen($price) > 6) {
+                self::$errors['price'] = "price cant be more than 6ch!!";
+            }
+        }
+    }
+
+    private static function descValidation($description): void
+    {
+        if (empty($description)) {
+            self::$errors['description'] = "Description field is require!!";
+        } else {
+            if (strlen($description) > 64) {
+                self::$errors['description'] = "Description cant be more than 64ch!!";
+            }
+        }
+    }
+
+    private static function qtyValidation($qty): void
+    {
+        if (empty($qty)) {
+            self::$errors['qty'] = "Quantity field is require!!";
+        } else {
+            if (strlen($qty) > 1) {
+                self::$errors['qty'] = "Quantity cant be more than 1ch!!";
+            }
+        }
     }
 }
