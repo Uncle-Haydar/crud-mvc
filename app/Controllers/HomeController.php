@@ -1,11 +1,11 @@
 <?php
 
-class HomeController {
+use App\Controllers\_Controller;
 
-    public function index() {
-
-        View::load('welcome');
+class HomeController extends _Controller
+{
+    public function index()
+    {
+        $this->view('welcome');
     }
-
-    
 }

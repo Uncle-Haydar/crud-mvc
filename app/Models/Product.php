@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Core\Validation;
-use App\Models\Model;
+use App\Models\_Model;
 
-class Product extends Model
+class Product extends _Model
 {
     private static array $errors = [];
 

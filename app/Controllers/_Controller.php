@@ -1,13 +1,11 @@
 <?php
 
-class View {
-    
-    /*
-     * Loade Views Pages 
-     */
+namespace App\Controllers;
 
-    public static function load($view, $data = []) {
-
+class _Controller
+{
+    public function view($view, $data = [])
+    {
         extract($data);
         $file = VIEWS . $view . '.php';
 
@@ -22,14 +20,9 @@ class View {
         }
     }
 
-    /*
-    *   Redirect Function
-    */
-    public static function redirect($path)
+    public function redirect($path)
     {
         header("Location: " . BURL . $path);
         exit();
     }
-
-
 }

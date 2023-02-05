@@ -1,14 +1,14 @@
 <?php
 
+use App\Controllers\_Controller;
 use App\Models\Product;
 
-class ProductController
+class ProductController extends _Controller
 {
-
     public function index(): void
     {
         $db = new Product;
-        View::load("product/index", [
+        $this->view("product/index", [
             'products' => $db->all('DESC'),
         ]);
     }
@@ -18,7 +18,7 @@ class ProductController
      */
     public function add(): void
     {
-        View::load("product/add");
+        $this->view("product/add");
     }
 
     /*
@@ -36,12 +36,12 @@ class ProductController
 
             if (!empty($validate)) {
                 $_SESSION['errors'] = $validate;
-                View::redirect('product/add');
+                $this->redirect('product/add');
             } else {
                 $db = new Product();
                 $db->insert($data);
                 $_SESSION['added'] = "Product added successfully..!";
-                View::redirect('product');
+                $this->redirect('product');
             }
         }
     }
@@ -52,7 +52,7 @@ class ProductController
     public function edit($id): void
     {
         $db = new Product();
-        View::load("product/edit", [
+        $this->view("product/edit", [
             'product' => $db->find($id)
         ]);
     }
@@ -71,12 +71,12 @@ class ProductController
 
             if (!empty($validate)) {
                 $_SESSION['errors'] = $validate;
-                View::redirect('product/edit/' . $id);
+                $this->redirect('product/edit/' . $id);
             } else {
                 $db = new Product();
                 $db->update($id, $data);
                 $_SESSION['updated'] = "Product update successfully..!";
-                View::redirect('product');
+                $this->redirect('product');
             }
         }
     }
@@ -87,7 +87,7 @@ class ProductController
         $db = new Product();
         $db->delete($id);
         $_SESSION['deleted'] = "Product deleted successfully..!";
-        View::redirect('product');
+        $this->redirect('product');
     }
 
 

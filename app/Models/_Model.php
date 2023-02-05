@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Model
+class _Model
 {
     protected static $conn;
     protected string $table;

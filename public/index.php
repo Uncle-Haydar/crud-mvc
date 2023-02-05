@@ -4,8 +4,8 @@ session_start();
 require 'autoload.php';
 
 use App\Config\DB;
-use App\Models\Model;
+use App\Models\_Model;
 
 
-new Model(new DB);
+new _Model(new DB);
 new App();

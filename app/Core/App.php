@@ -1,22 +1,39 @@
 <?php
 
-class App {
-
+class App
+{
     protected $controller = "HomeController";
     protected $method = "index";
     protected $params = [];
 
-    public function __construct() {
-
+    public function __construct()
+    {
         $this->prepareURI();
     }
 
-    private function prepareURI() {
-
+    private function prepareURI()
+    {
         $url = $this->getURI();
-        $file = "../app/Controllers/" . ucfirst($url[0]) . "Controller.php";
+        /** Select Controller **/
+        $controller = $this->selectController($url);
+        /** Select Method * */
+        $method = $this->selectMethod($controller);
+        /** Select Params * */
+        $params = array_values($method);
+        $this->params = $params;
 
-        /** Select Controller * */
+        call_user_func_array([$this->controller, $this->method], $this->params);
+    }
+
+    private function getURI()
+    {
+        $URI = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_URL);
+        return explode('/', $URI);
+    }
+
+    private function selectController($url)
+    {
+        $file = "../app/Controllers/" . ucfirst($url[0]) . "Controller.php";
         if (file_exists($file)) {
             $this->controller = ucfirst($url[0]) . "Controller";
             unset($url[0]);
@@ -24,7 +41,11 @@ class App {
         require '../app/Controllers/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
-        /** Select Method * */
+        return $url;
+    }
+
+    private function selectMethod($url)
+    {
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {
                 $this->method = $url[1];
@@ -33,18 +54,6 @@ class App {
                 echo "method not found!!";
             }
         }
-
-        /** Select Params * */
-        $url = array_values($url);
-        $this->params = $url;
-
-        call_user_func_array([$this->controller, $this->method], $this->params);
+        return $url;
     }
-
-    private function getURI() {
-
-        $URI = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_URL);
-        return explode('/', $URI);
-    }
-
 }

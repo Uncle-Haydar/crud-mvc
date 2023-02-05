@@ -1,7 +1,6 @@
 <?php
 
-function url($url = '') {
-    
+function url($url = '')
+{
     echo BURL . $url;
 }
-
