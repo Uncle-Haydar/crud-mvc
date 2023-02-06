@@ -1,7 +1,7 @@
 <?php
 
-use App\Controllers\_Controller;
-use App\Models\Product;
+use app\Controllers\_Controller;
+use app\Models\Product;
 
 class ProductController extends _Controller
 {

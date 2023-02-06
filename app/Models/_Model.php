@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace app\Models;
 
 class _Model
 {
@@ -43,7 +43,6 @@ class _Model
         $keys = array_keys($data);
         $sql = "INSERT INTO $this->table (" . implode(',', $keys) . ") 
                 VALUES (:" . implode(",:", $keys) . ")";
-
         $stmt = self::$conn->prepare($sql);
         $stmt->execute($data);
     }

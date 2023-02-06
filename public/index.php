@@ -3,8 +3,8 @@ session_start();
 
 require 'autoload.php';
 
-use App\Config\DB;
-use App\Models\_Model;
+use app\Config\DB;
+use app\Models\_Model;
 
 
 new _Model(new DB);
