@@ -2,21 +2,21 @@
 
 namespace app\Config;
 
-class DB
-{
+class DB {
+
     private static $connection;
 
-    public function connectDB()
-    {
-        try {
-            if (self::$connection === null) {
-                self::$connection = new \PDO(DSN, USERNAME, PASSWORD);
-                self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            }
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+    private function __construct() {
+        
+    }
+
+    public static function connectDB() {
+        if (!self::$connection) {
+            self::$connection = new \PDO(DSN, USERNAME, PASSWORD);
+            self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         }
 
         return self::$connection;
     }
+
 }

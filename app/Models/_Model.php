@@ -11,7 +11,7 @@ class _Model
 
     public function __construct($db)
     {
-        self::$conn = $db->connectDB();
+        self::$conn = $db;
     }
 
     /**
